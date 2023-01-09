@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 // className={`main-nav ${!session && loading ? "loading" : "loaded"}`}
 function Navbar() {
-  //   const [session, loading] = useSession();
+  const { data: session } = useSession();
   return (
     <nav className="header">
       <h1 className="logo">
@@ -18,30 +18,34 @@ function Navbar() {
         <li>
           <Link href="/blog">Blog</Link>
         </li>
-        <li>
-          <Link
-            href="/api/auth/signin"
-            onClick={(e) => {
-              e.defaultPrevented();
-              signIn();
-              // if don't went to go github the pass a string to signin function
-              //   signIn("github");
-            }}
-          >
-            Sign In
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/api/auth/signout"
-            onClick={(e) => {
-              e.defaultPrevented();
-              signOut();
-            }}
-          >
-            Sign Out
-          </Link>
-        </li>
+        {!session && (
+          <li>
+            <Link
+              href="/api/auth/signin"
+              onClick={(e) => {
+                e.defaultPrevented();
+                signIn();
+                // if don't went to go github the pass a string to signin function
+                //   signIn("github");
+              }}
+            >
+              Sign In
+            </Link>
+          </li>
+        )}
+        {session && (
+          <li>
+            <Link
+              href="/api/auth/signout"
+              onClick={(e) => {
+                e.defaultPrevented();
+                signOut();
+              }}
+            >
+              Sign Out
+            </Link>
+          </li>
+        )}
         {/* {!loading && !session && (
           <li>
             <Link href="/api/auth/signin">

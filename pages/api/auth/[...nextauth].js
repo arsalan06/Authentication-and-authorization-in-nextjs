@@ -10,5 +10,12 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
+  database: process.env.DB_URL,
+  session: {
+    jwt: true,
+  },
+  jwt: {
+    secret: "fedufg88de",
+  },
 };
 export default NextAuth(authOptions);
